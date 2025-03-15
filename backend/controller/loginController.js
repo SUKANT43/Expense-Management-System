@@ -31,18 +31,21 @@ const signUp=async(req,res)=>{
 const signIn=async(req,res)=>{
     try{
         const {email,password}=req.body
+
         if(!email || !password){
             return res.status(201).json({msg:"please enter all fields"})
         }
         const findEmail=await loginData.findOne({email})
         if(!findEmail){
+            console.log("email not registered")
             return res.status(202).json({msg:"your email id is not registered"})
         }
         const comaprePass=bcrypt.compare(password,findEmail.password)
         if(!comaprePass){
             return res.status(203).json({msg:"please enter correct password"})
         }
-        
+        console.log(email +"  "+ password)
+
         return res.status(200).json({
             name:findEmail.name,
             email,
